@@ -1,8 +1,9 @@
 import json
 import logging
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 from src.models.payoff import Payoff
+from src.models.scene import Scene
 from src.models.seed import Seed
 
 logging.basicConfig(level=logging.INFO)
@@ -66,10 +67,19 @@ def load_payoffs(path: str, all_seeds: Dict[str, Seed]) -> Dict[str, Payoff]:
     return payoffs
 
 
-def load_scene(path: str) -> None:
+def load_scene(path: str) -> Optional[Scene]:
     """
-    Loads scene data from a JSON file.
-    (This is a placeholder as per AGENTS.md)
+    Loads a scene from a JSON file.
     """
-    logger.info(f"Loading scene from {path} (not implemented).")
-    pass
+    try:
+        with open(path, "r") as f:
+            data = json.load(f)
+            if not isinstance(data, dict):
+                logger.error(f"Scene file at {path} should contain a JSON object.")
+                return None
+            return Scene.from_dict(data)
+    except FileNotFoundError:
+        logger.error(f"Scene file not found at {path}")
+    except (json.JSONDecodeError, KeyError) as e:
+        logger.error(f"Error parsing scene file at {path}: {e}")
+    return None

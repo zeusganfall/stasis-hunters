@@ -37,13 +37,28 @@
 ---
 
 ## SceneEngine & seed pickup flow
-- [ ] `scene_engine.py`
+- [x] `scene_engine.py`
     - `SceneEngine` loads scene JSON, renders content via UI, processes `effects` array (e.g., `pickup_seed`).
     - On `pickup_seed`:
         - Add seed to player inventory/flags.
         - If `seed.mirrored_to_chronicle_on_pickup` OR `seed.essential_for_payoff` → call `Chronicle.mirror(seed)`.
     - Emit events/logs for triggers (use simple EventBus or callback hooks).
-- [ ] **Scene JSON spec doc**
+- [x] **Scene JSON spec doc**
     - Document allowed effect types: `pickup_seed`, `trigger_combat`, `give_item`, `add_rel_points`, `transition_chapter`.
 
 **Acceptance:** Picking S05 in ch1_festival results in `chronicle.has("S05") == True` immediately.
+
+---
+
+## CombatEngine (minimal deterministic system)
+- [ ] `models/combat.py`
+    - Implement classes: `Entity`, `Ability`, `CombatEngine`.
+    - Abilities: `attack`, `ritual` (requires warm-up), `tech` (consumes pulse).
+    - Relationship-based combos: `if relationship.rank >= X` → unlock `partner_combo`.
+    - Deterministic RNG: `CombatEngine(seed)` parameterized.
+- [ ] **Combat CLI hooks**
+    - Command-line choices: attack, ritual, tech, use-item, pass.
+- [ ] **Combat tests**
+    - Deterministic scenarios (seeded RNG) assert exact HP changes.
+
+**Acceptance:** A scripted combat scenario with RNG seed yields stable results across runs.
