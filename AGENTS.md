@@ -47,3 +47,18 @@
     - Document allowed effect types: `pickup_seed`, `trigger_combat`, `give_item`, `add_rel_points`, `transition_chapter`.
 
 **Acceptance:** Picking S05 in ch1_festival results in `chronicle.has("S05") == True` immediately.
+
+---
+
+## CombatEngine (minimal deterministic system)
+- [ ] `models/combat.py`
+    - Implement classes: `Entity`, `Ability`, `CombatEngine`.
+    - Abilities: `attack`, `ritual` (requires warm-up), `tech` (consumes pulse).
+    - Relationship-based combos: `if relationship.rank >= X` → unlock `partner_combo`.
+    - Deterministic RNG: `CombatEngine(seed)` parameterized.
+- [ ] **Combat CLI hooks**
+    - Command-line choices: attack, ritual, tech, use-item, pass.
+- [ ] **Combat tests**
+    - Deterministic scenarios (seeded RNG) assert exact HP changes.
+
+**Acceptance:** A scripted combat scenario with RNG seed yields stable results across runs.
