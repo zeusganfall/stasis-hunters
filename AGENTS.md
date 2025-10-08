@@ -37,13 +37,13 @@
 ---
 
 ## SceneEngine & seed pickup flow
-- [ ] `scene_engine.py`
+- [x] `scene_engine.py`
     - `SceneEngine` loads scene JSON, renders content via UI, processes `effects` array (e.g., `pickup_seed`).
     - On `pickup_seed`:
         - Add seed to player inventory/flags.
         - If `seed.mirrored_to_chronicle_on_pickup` OR `seed.essential_for_payoff` → call `Chronicle.mirror(seed)`.
     - Emit events/logs for triggers (use simple EventBus or callback hooks).
-- [ ] **Scene JSON spec doc**
+- [x] **Scene JSON spec doc**
     - Document allowed effect types: `pickup_seed`, `trigger_combat`, `give_item`, `add_rel_points`, `transition_chapter`.
 
 **Acceptance:** Picking S05 in ch1_festival results in `chronicle.has("S05") == True` immediately.
