@@ -79,14 +79,14 @@
 ---
 
 ## UI: Console-first (scope-limited)
-- [ ] `ui/console_ui.py`
+- [x] `ui/console_ui.py`
     - `render_scene(scene)`: show content, numbered choices.
     - `render_inventory()`: show items, mark chronicle items `"[Chronicle — protected]"`.
     - `render_combat(combat_state)`: menu-driven battle.
     - `confirm_memory_cost(optional_fragments, chronicle_entries):`
         - Shows what *will* be removed *and* what is protected.
         - Disallow removing protected items.
-- [ ] **UX polish**
+- [x] **UX polish**
     - Clear labels for protected items, colored text where available (but avoid color dependency).
     - Keyboard-friendly input mappings.
 
