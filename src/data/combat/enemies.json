@@ -1,0 +1,12 @@
+[
+  {
+    "id": "M01",
+    "name": "Shrine Guardian",
+    "hp": 30,
+    "max_hp": 30,
+    "speed": 8,
+    "pulse": 0,
+    "is_player": false,
+    "meta": { "drops": [{ "seed_id": "S05", "mirror_on_pickup": true }] }
+  }
+]
