@@ -51,14 +51,14 @@
 ---
 
 ## CombatEngine (minimal deterministic system)
-- [ ] `models/combat.py`
+- [x] `models/combat.py`
     - Implement classes: `Entity`, `Ability`, `CombatEngine`.
     - Abilities: `attack`, `ritual` (requires warm-up), `tech` (consumes pulse).
     - Relationship-based combos: `if relationship.rank >= X` → unlock `partner_combo`.
     - Deterministic RNG: `CombatEngine(seed)` parameterized.
-- [ ] **Combat CLI hooks**
+- [x] **Combat CLI hooks**
     - Command-line choices: attack, ritual, tech, use-item, pass.
-- [ ] **Combat tests**
+- [x] **Combat tests**
     - Deterministic scenarios (seeded RNG) assert exact HP changes.
 
 **Acceptance:** A scripted combat scenario with RNG seed yields stable results across runs.
