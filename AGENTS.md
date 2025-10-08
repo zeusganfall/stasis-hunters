@@ -91,3 +91,16 @@
     - Keyboard-friendly input mappings.
 
 **Acceptance:** Memory-cost UI explicitly lists protected Chronicle entries and refuses removal.
+
+---
+
+## Payoff gating & fallback rules
+- [ ] `payoff_manager.py`
+    - `can_trigger_payoff(payoff_id, chronicle: Chronicle, flags) -> bool`.
+    - Implement fallback checks per lore doc: if required seed is missing, check fallback sources (e.g., late midboss drop) and show fallback text.
+    - When payoff triggers, mark payoff as completed in save flags and create scene consequences (unlock artifact, dialog nodes).
+- [ ] **Test scenarios**
+    - Payoff triggers when required seeds are present.
+    - Payoff still reachable via fallback path if seeds initially missed (simulate midboss drop).
+
+**Acceptance:** Payoff P02 triggers only when rules allow and produces expected save flags.
