@@ -124,6 +124,9 @@ class RelationshipManager:
             if target is None or action_type is None:
                 continue
 
+            # Get rank *before* point modification to check against pre-action state
+            rank_before_action = self.get_rank(target)
+
             # Default behavior mapping
             if amount is None:
                 if action_type == "give_charm":
@@ -141,19 +144,18 @@ class RelationshipManager:
             self.add_points(target, amount, reason, source=actor)
 
             # If negative event (insult) and rank high, set warning flag (do not auto-downgrade)
-            rank = self.get_rank(target)
-            if action_type == "insult" and rank >= 2:
+            if action_type == "insult" and rank_before_action >= 2:
                 flag_key = f"festival_downgrade_warning:{festival_id}:{target}"
                 self.flags[flag_key] = {
                     "triggered_by": actor,
-                    "rank_at_trigger": rank,
+                    "rank_at_trigger": rank_before_action,
                     "reason": reason,
                     "timestamp": self._now_iso()
                 }
                 summary["flags_set"][flag_key] = self.flags[flag_key]
 
             # If a player gives a charm and target is Neutral, small chance to raise priority flag for romance (not auto-apply)
-            if action_type == "give_charm" and self.get_rank(target) == 0:
+            if action_type == "give_charm" and rank_before_action == 0:
                 flag_key = f"festival_romance_interest:{festival_id}:{target}"
                 self.flags[flag_key] = {
                     "triggered_by": actor,

@@ -66,12 +66,12 @@
 ---
 
 ## RelationshipManager & festival mechanics
-- [ ] `models/relationship.py`
+- [x] `models/relationship.py`
     - Track per-character `points`, compute `rank` (thresholds).
     - API to `add_points(char_id, amount, reason)`.
-- [ ] Festival interaction
+- [x] Festival interaction
     - Implement festival timeline hook that can change relationship ranks and optionally apply downgrade flags (but do not auto-run major punishments in MVP).
-- [ ] UI display
+- [x] UI display
     - Relationship panel showing points and rank.
 
 **Acceptance:** Relationship points change from specific events and are readable in UI.
