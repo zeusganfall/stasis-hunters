@@ -62,3 +62,16 @@
     - Deterministic scenarios (seeded RNG) assert exact HP changes.
 
 **Acceptance:** A scripted combat scenario with RNG seed yields stable results across runs.
+
+---
+
+## RelationshipManager & festival mechanics
+- [ ] `models/relationship.py`
+    - Track per-character `points`, compute `rank` (thresholds).
+    - API to `add_points(char_id, amount, reason)`.
+- [ ] Festival interaction
+    - Implement festival timeline hook that can change relationship ranks and optionally apply downgrade flags (but do not auto-run major punishments in MVP).
+- [ ] UI display
+    - Relationship panel showing points and rank.
+
+**Acceptance:** Relationship points change from specific events and are readable in UI.
