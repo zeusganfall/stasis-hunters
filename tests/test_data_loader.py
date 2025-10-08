@@ -1,71 +1,89 @@
 import json
-import os
 import unittest
 from unittest.mock import patch, mock_open
 
 from src.models import Seed, Payoff
 from src.data_loader import load_seeds, load_payoffs
 
-
 class TestDataLoader(unittest.TestCase):
+
     def setUp(self):
-        self.seeds_data = {
-            "seed1": {
+        # Updated to be a list of dicts, matching the real file format
+        self.seeds_data = [
+            {
+                "id": "seed1",
                 "title": "Seed 1",
                 "payoff": "payoff1",
                 "essential_for_payoff": True,
                 "mirrored_to_chronicle_on_pickup": True,
                 "chapter": 1,
             }
-        }
-        self.payoffs_data = {
-            "payoff1": {
+        ]
+        # Updated to be a list of dicts with the complex required_seeds
+        self.payoffs_data = [
+            {
+                "id": "payoff1",
                 "description": "Payoff 1",
-                "required_seeds": ["seed1"],
+                "required_seeds": {
+                    "mode": "any_of",
+                    "seeds": [{"id": "seed1"}]
+                },
                 "canonical": True,
             }
-        }
+        ]
 
     def test_load_seeds_success(self):
+        # Test loading from a list of seed objects
         m = mock_open(read_data=json.dumps(self.seeds_data))
         with patch("builtins.open", m):
             seeds = load_seeds("dummy_path.json")
             self.assertIn("seed1", seeds)
             self.assertIsInstance(seeds["seed1"], Seed)
             self.assertEqual(seeds["seed1"].title, "Seed 1")
+            self.assertEqual(len(seeds), 1)
 
     def test_load_payoffs_success(self):
+        # Test loading from a list of payoff objects
         m_seeds = mock_open(read_data=json.dumps(self.seeds_data))
         m_payoffs = mock_open(read_data=json.dumps(self.payoffs_data))
+
         with patch("builtins.open", m_seeds):
             all_seeds = load_seeds("dummy_seeds.json")
+
         with patch("builtins.open", m_payoffs):
             payoffs = load_payoffs("dummy_payoffs.json", all_seeds)
             self.assertIn("payoff1", payoffs)
             self.assertIsInstance(payoffs["payoff1"], Payoff)
             self.assertEqual(payoffs["payoff1"].description, "Payoff 1")
+            self.assertEqual(len(payoffs), 1)
 
     def test_load_payoffs_invalid_seed_ref(self):
-        invalid_payoffs_data = {
-            "payoff2": {
+        # Test validation of required_seeds
+        invalid_payoffs_data = [
+            {
+                "id": "payoff2",
                 "description": "Payoff 2",
-                "required_seeds": ["non_existent_seed"],
+                "required_seeds": {
+                    "mode": "any_of",
+                    "seeds": [{"id": "non_existent_seed"}]
+                },
                 "canonical": False,
             }
-        }
+        ]
         m_seeds = mock_open(read_data=json.dumps(self.seeds_data))
         m_payoffs = mock_open(read_data=json.dumps(invalid_payoffs_data))
+
         with patch("builtins.open", m_seeds):
             all_seeds = load_seeds("dummy_seeds.json")
+
         with patch("builtins.open", m_payoffs):
             with self.assertLogs("src.data_loader", level="ERROR") as cm:
                 payoffs = load_payoffs("dummy_payoffs.json", all_seeds)
                 self.assertEqual(len(payoffs), 0)
                 self.assertIn(
-                    "references an unknown seed",
+                    "references an unknown seed 'non_existent_seed'",
                     cm.output[0],
                 )
-
 
 if __name__ == "__main__":
     unittest.main()
