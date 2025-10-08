@@ -1,0 +1,42 @@
+{
+  "id": "ch1_festival",
+  "chapter": 1,
+  "title": "Festival Awakening",
+  "content": "The harbor festival hums with lanterns and paper stalls. Aki wanders into a small shrine stall where Hana tends charms. The world smells of incense and fried food.",
+  "choices": [
+    {
+      "id": "pickup_charm",
+      "text": "Accept Hana's charm",
+      "effects": [
+        { "type": "pickup_seed", "seed_id": "S05" },
+        { "type": "add_rel_points", "target": "Hana", "amount": 5 }
+      ]
+    },
+    {
+      "id": "read_pamphlet",
+      "text": "Examine the city pamphlet on the charity table",
+      "effects": [{ "type": "examine_seed", "seed_id": "S02" }]
+    },
+    {
+      "id": "read_blog_teaser",
+      "text": "Check Mira's live blog teaser pinned at a vendor stall",
+      "effects": [{ "type": "examine_seed", "seed_id": "S20" }]
+    },
+    {
+      "id": "skip_side_stroll",
+      "text": "Keep walking (skip side stroll)",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag": "flag_skipped_festival_side_stroll",
+          "value": true
+        }
+      ],
+      "notes": "If skipped, guaranteed fallback will deliver equivalent charm evidence by Ch3."
+    }
+  ],
+  "meta": {
+    "seeds_present": ["S05", "S02", "S19", "S20"],
+    "recommended_player_load": "Introduce chronosense + 1 small inventory item; keep exposition light"
+  }
+}

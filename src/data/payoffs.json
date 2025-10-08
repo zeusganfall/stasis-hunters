@@ -1,0 +1,103 @@
+[
+  {
+    "id": "P02",
+    "title": "Charm unlocks closed time anchor",
+    "description": "A shrine charm (or equivalent seal) provides the anchor match required to enable non-destructive ritual+tech stabilisation mechanics for the local time anomaly.",
+    "required_seeds": {
+      "mode": "any_of",
+      "seeds": [
+        { "id": "S05", "must_be_mirrored": true, "priority": 1 },
+        { "id": "S06", "must_be_mirrored": true, "priority": 2 }
+      ]
+    },
+    "fallbacks": [
+      {
+        "missing_seed": "S05",
+        "alternatives": ["S06", "S07"],
+        "deadline_chapter": 3,
+        "priority": 10,
+        "note": "If S06 or S07 is mirrored to Chronicle by chapter 3, they satisfy S05's role for P02 canonical mechanics."
+      }
+    ],
+    "trigger_window": { "earliest_chapter": 1, "latest_chapter": 9 },
+    "canonical": true,
+    "consequence": {
+      "type": "mechanic",
+      "data": {
+        "unlock": "stabilization_routine_P02",
+        "requirements_description": "Requires one mirrored shrine-seal seed (S05 preferred) to enable ritual+tech non-destructive procedure."
+      }
+    },
+    "completion_flag": "payoff_P02_completed",
+    "validation": { "strict": true, "error_on_violation": true },
+    "notes": "At least one of S05 or S06 must be mirrored to Chronicle to enable canonical mechanics; if neither mirrored by latest_chapter, present cinematic alternative but do NOT enable canonical mechanic."
+  },
+  {
+    "id": "P01",
+    "title": "Chronos Division exposure (corporate front)",
+    "description": "Evidence showing Chronos Division is a corporate front for Sable Group. Allows canonical exposure mechanics/quests later.",
+    "required_seeds": {
+      "mode": "any_of",
+      "seeds": [
+        { "id": "S01", "must_be_mirrored": true, "priority": 2 },
+        { "id": "S03", "must_be_mirrored": true, "priority": 1 },
+        { "id": "S22", "must_be_mirrored": true, "priority": 1 }
+      ]
+    },
+    "fallbacks": [
+      {
+        "missing_seed": "S01",
+        "alternatives": ["S04", "S02"],
+        "deadline_chapter": 10,
+        "priority": 8,
+        "note": "Security footage / manifests can substitute if mirrored by chapter 10."
+      }
+    ],
+    "trigger_window": { "earliest_chapter": 2, "latest_chapter": 12 },
+    "canonical": true,
+    "consequence": {
+      "type": "unlock",
+      "data": {
+        "unlock_flag": "unlock_investigation_payoff_P01",
+        "gameplay": "opens public exposure questline; unlocks new NPC interactions and evidence-collection mechanics"
+      }
+    },
+    "completion_flag": "payoff_P01_completed",
+    "validation": { "strict": true, "error_on_violation": true },
+    "notes": "At least one of the listed seeds must be mirrored to Chronicle before latest_chapter to get canonical exposure mechanics. Otherwise allow restricted cinematic reveal that advances plot but doesn't unlock investigative mechanics."
+  },
+  {
+    "id": "P05",
+    "title": "Stabilization protocol (ritual + tech synergy)",
+    "description": "A multi-team stabilization procedure combining charm (ritual) and pulse (tech) to non-destructively stabilise anchors. Canonical mechanics require documentary proof of the protocol or Engine Memory Core evidence.",
+    "required_seeds": {
+      "mode": "any_of",
+      "seeds": [
+        { "id": "S16", "must_be_mirrored": true, "priority": 1 },
+        { "id": "S23", "must_be_mirrored": true, "priority": 1 }
+      ]
+    },
+    "fallbacks": [
+      {
+        "missing_seed": "S16",
+        "alternatives": ["S14", "S15"],
+        "deadline_chapter": 11,
+        "priority": 9,
+        "note": "If S16 is missed, Kenta's notebook or training clip may be mirrored by chapter 11 to permit canonical mechanics."
+      }
+    ],
+    "trigger_window": { "earliest_chapter": 3, "latest_chapter": 13 },
+    "canonical": true,
+    "consequence": {
+      "type": "mechanic",
+      "data": {
+        "unlock": "stabilization_protocol_P05",
+        "requires": "at least one mirrored seed listed above",
+        "fallback_behavior": "if missing, present cinematic rescue that resolves plot but disables non-destructive mechanic unlock"
+      }
+    },
+    "completion_flag": "payoff_P05_completed",
+    "validation": { "strict": true, "error_on_violation": true },
+    "notes": "S16 or S23 must be mirrored to Chronicle to allow canonical P05 mechanics; if neither is mirrored by latest_chapter, only cinematic resolution occurs."
+  }
+]

@@ -1,0 +1,41 @@
+{
+  "id": "ch3_first_containment",
+  "chapter": 3,
+  "title": "First Containment",
+  "content": "The team enters a small shrine inner room where anchor patterns appear. A low-difficulty Shrine Guardian prowls the inner chamber guarding carvings and relics.",
+  "choices": [
+    {
+      "id": "examine_carving",
+      "text": "Examine the inner-carving on the shrine wall",
+      "effects": [{ "type": "examine_seed", "seed_id": "S06" }]
+    },
+    {
+      "id": "read_after_action",
+      "text": "Inspect the Hunters' Circle after-action report",
+      "effects": [{ "type": "pickup_seed", "seed_id": "S16" }]
+    },
+    {
+      "id": "view_gala_photo",
+      "text": "Look through the archived gala photo",
+      "effects": [{ "type": "examine_seed", "seed_id": "S13" }]
+    },
+    {
+      "id": "fight_shrine_guardian",
+      "text": "Engage the Shrine Guardian",
+      "effects": [
+        { "type": "trigger_combat", "enemy_id": "M01" },
+        {
+          "type": "on_enemy_drop",
+          "enemy_id": "M01",
+          "drop": { "seed_id": "S05", "mirror_on_pickup": true }
+        }
+      ],
+      "notes": "M01 is an easy predator with a guaranteed S05 drop; S05 mirrors to Chronicle when picked up (protected)."
+    }
+  ],
+  "meta": {
+    "seeds_present": ["S06", "S16", "S13"],
+    "monsters": ["M01"],
+    "notes": "Teaches anchor containment concept and ritual+tech synergy (small tutorial encounter)."
+  }
+}

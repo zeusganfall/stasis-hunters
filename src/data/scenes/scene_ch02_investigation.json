@@ -1,0 +1,38 @@
+{
+  "id": "ch2_investigation",
+  "chapter": 2,
+  "title": "Investigation & Recruitment",
+  "content": "You explore an abandoned containment site and meet new allies. Evidence of corporate ties and Hunters' improvisations appears in lockers and notebooks.",
+  "choices": [
+    {
+      "id": "examine_crate",
+      "text": "Inspect the branded crate in the back room",
+      "effects": [{ "type": "examine_seed", "seed_id": "S01" }]
+    },
+    {
+      "id": "open_kenta_locker",
+      "text": "Search Kenta's locker",
+      "effects": [
+        { "type": "pickup_seed", "seed_id": "S14" },
+        { "type": "add_rel_points", "target": "Kenta", "amount": 4 }
+      ]
+    },
+    {
+      "id": "ask_ayaka_about_shrine",
+      "text": "Press Ayaka about the shrine (gentle tone)",
+      "effects": [
+        { "type": "trigger_dialogue_seed", "seed_id": "S08" },
+        { "type": "maybe_add_rel_points", "target": "Ayaka", "amount": 3 }
+      ]
+    },
+    {
+      "id": "check_emi_locker",
+      "text": "Peer into Emi's locker when left unattended",
+      "effects": [{ "type": "examine_seed", "seed_id": "S18" }]
+    }
+  ],
+  "meta": {
+    "seeds_present": ["S01", "S14", "S08", "S18"],
+    "notes": "Introduces Hunters' Circle hints and Kenta's anchor sketch (S14). Keep social beats light."
+  }
+}
