@@ -18,13 +18,13 @@
 ---
 
 ## Chronicle & SaveManager (write-once enforcement)
-- [ ] `models/chronicle.py`
+- [x] `models/chronicle.py`
     - `Chronicle` class with methods:
         - `mirror(seed: Seed) -> bool` — add protected entry if not present.
         - `has(seed_id: str) -> bool`.
         - `list_entries() -> List[ChronicleEntry]`.
     - `ChronicleEntry` dataclass: `{id, data, protected: True, mirrored_at}`.
-- [ ] `persistence/save_manager.py`
+- [x] `persistence/save_manager.py`
     - JSON-based save/load API:
         - `save_game(state: dict, path: str)`.
         - `load_game(path: str) -> dict`.
