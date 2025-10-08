@@ -6,35 +6,51 @@ This document outlines the structure of a scene JSON file used in Stasis-Hunters
 
 A scene file is a single JSON object with the following properties:
 
--   `id` (string, required): A unique identifier for the scene (e.g., `ch1_festival_intro`).
+-   `id` (string, required): A unique identifier for the scene (e.g., `ch1_festival`).
 -   `title` (string, required): The title of the scene, which may be displayed to the player.
 -   `content` (string, required): The main descriptive text of the scene.
--   `effects` (array of `Effect` objects, optional): A list of actions that are triggered when the scene is processed.
+-   `choices` (array of `Choice` objects, optional): A list of interactive options for the player. If present, this is the primary way a scene progresses.
+-   `effects` (array of `Effect` objects, optional): A list of actions that are triggered automatically when the scene loads. This is typically used for scenes without player interaction.
 
-### Example
+## The `Choice` Object
+
+The `Choice` object defines an interactive option available to the player.
+
+-   `id` (string, required): A unique identifier for the choice (e.g., `accept_charm`).
+-   `text` (string, required): The text displayed to the player for this choice.
+-   `effects` (array of `Effect` objects, required): A list of effects that are triggered if the player selects this choice.
+
+## The `Effect` Object
+
+The `Effect` object defines a specific event or action.
+
+-   `type` (string, required): The type of the effect, which determines the action to be taken.
+-   All other keys in the object are treated as parameters for the effect handler.
+
+### Example with Choices
 
 ```json
 {
-  "id": "ch1_festival_start",
-  "title": "The Festival Begins",
-  "content": "You arrive at the town square, bustling with people celebrating the annual harvest festival. Banners of every color flutter in the wind.",
-  "effects": [
+  "id": "ch1_festival",
+  "title": "Festival Awakening",
+  "content": "The harbor festival hums with lanterns and paper stalls...",
+  "choices": [
     {
-      "type": "pickup_seed",
-      "params": {
-        "id": "S05"
-      }
+      "id": "pickup_charm",
+      "text": "Accept Hana's charm",
+      "effects": [
+        { "type": "pickup_seed", "seed_id": "S05" },
+        { "type": "add_rel_points", "target": "Hana", "amount": 5 }
+      ]
+    },
+    {
+      "id": "read_pamphlet",
+      "text": "Examine the city pamphlet...",
+      "effects": [{ "type": "examine_seed", "seed_id": "S02" }]
     }
   ]
 }
 ```
-
-## The `Effect` Object
-
-The `Effect` object defines a specific event or action that occurs within the scene.
-
--   `type` (string, required): The type of the effect. This determines the action to be taken.
--   `params` (object, optional): A dictionary of key-value pairs that provide data for the effect handler.
 
 ### Supported Effect Types
 
@@ -42,13 +58,18 @@ The `Effect` object defines a specific event or action that occurs within the sc
 
 Adds a specified seed to the player's inventory.
 
--   **`params.id`** (string, required): The unique ID of the seed to be picked up.
+-   **`seed_id`** (string, required): The unique ID of the seed to be picked up.
+
+#### `add_rel_points`
+
+Adds relationship points to a character.
+
+-   **`target`** (string, required): The ID of the character.
+-   **`amount`** (integer, required): The number of points to add.
 
 #### Other Effect Types (Placeholder)
 
-The following effect types are planned but not yet implemented:
-
 -   `trigger_combat`
 -   `give_item`
--   `add_rel_points`
+-   `examine_seed`
 -   `transition_chapter`

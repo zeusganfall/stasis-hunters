@@ -55,7 +55,7 @@ class TestSceneEngine(unittest.TestCase):
             content="A scene for testing.",
             effects=[Effect(type="pickup_seed", params={"id": "S01"})],
         )
-        self.scene_engine.process_scene(scene)
+        self.scene_engine.process_effects(scene.effects)
 
         self.assertIn("S01", self.inventory)
         self.assertFalse(self.chronicle.has("S01"))
@@ -68,7 +68,7 @@ class TestSceneEngine(unittest.TestCase):
             content="A scene for testing mirrored seeds.",
             effects=[Effect(type="pickup_seed", params={"id": "S05"})],
         )
-        self.scene_engine.process_scene(scene)
+        self.scene_engine.process_effects(scene.effects)
 
         self.assertIn("S05", self.inventory)
         self.assertTrue(self.chronicle.has("S05"))
@@ -81,7 +81,7 @@ class TestSceneEngine(unittest.TestCase):
             content="A scene for testing essential seeds.",
             effects=[Effect(type="pickup_seed", params={"id": "S08"})],
         )
-        self.scene_engine.process_scene(scene)
+        self.scene_engine.process_effects(scene.effects)
 
         self.assertIn("S08", self.inventory)
         self.assertTrue(self.chronicle.has("S08"))
@@ -94,7 +94,7 @@ class TestSceneEngine(unittest.TestCase):
             content="A scene for testing nonexistent seeds.",
             effects=[Effect(type="pickup_seed", params={"id": "S99"})],
         )
-        self.scene_engine.process_scene(scene)
+        self.scene_engine.process_effects(scene.effects)
 
         self.assertEqual(len(self.inventory), 0)
         self.assertEqual(len(self.chronicle.list_entries()), 0)
@@ -110,7 +110,7 @@ class TestSceneEngine(unittest.TestCase):
                 Effect(type="pickup_seed", params={"id": "S05"}),
             ],
         )
-        self.scene_engine.process_scene(scene)
+        self.scene_engine.process_effects(scene.effects)
 
         self.assertIn("S01", self.inventory)
         self.assertIn("S05", self.inventory)

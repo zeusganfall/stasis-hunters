@@ -79,15 +79,28 @@
 ---
 
 ## UI: Console-first (scope-limited)
-- [ ] `ui/console_ui.py`
+- [x] `ui/console_ui.py`
     - `render_scene(scene)`: show content, numbered choices.
     - `render_inventory()`: show items, mark chronicle items `"[Chronicle — protected]"`.
     - `render_combat(combat_state)`: menu-driven battle.
     - `confirm_memory_cost(optional_fragments, chronicle_entries):`
         - Shows what *will* be removed *and* what is protected.
         - Disallow removing protected items.
-- [ ] **UX polish**
+- [x] **UX polish**
     - Clear labels for protected items, colored text where available (but avoid color dependency).
     - Keyboard-friendly input mappings.
 
 **Acceptance:** Memory-cost UI explicitly lists protected Chronicle entries and refuses removal.
+
+---
+
+## Payoff gating & fallback rules
+- [ ] `payoff_manager.py`
+    - `can_trigger_payoff(payoff_id, chronicle: Chronicle, flags) -> bool`.
+    - Implement fallback checks per lore doc: if required seed is missing, check fallback sources (e.g., late midboss drop) and show fallback text.
+    - When payoff triggers, mark payoff as completed in save flags and create scene consequences (unlock artifact, dialog nodes).
+- [ ] **Test scenarios**
+    - Payoff triggers when required seeds are present.
+    - Payoff still reachable via fallback path if seeds initially missed (simulate midboss drop).
+
+**Acceptance:** Payoff P02 triggers only when rules allow and produces expected save flags.
