@@ -14,3 +14,22 @@
     - Add logging for malformed entries (fail loudly in dev).
 
 **Acceptance:** JSON files parse into typed objects and validation runs (`required_seeds` must reference known seeds).
+
+---
+
+## Chronicle & SaveManager (write-once enforcement)
+- [ ] `models/chronicle.py`
+    - `Chronicle` class with methods:
+        - `mirror(seed: Seed) -> bool` — add protected entry if not present.
+        - `has(seed_id: str) -> bool`.
+        - `list_entries() -> List[ChronicleEntry]`.
+    - `ChronicleEntry` dataclass: `{id, data, protected: True, mirrored_at}`.
+- [ ] `persistence/save_manager.py`
+    - JSON-based save/load API:
+        - `save_game(state: dict, path: str)`.
+        - `load_game(path: str) -> dict`.
+        - `delete_fragment(fragment_id: str)` — should refuse if fragment is present in `chronicle.entries`.
+    - Implement atomic write (write-to-temp + rename) to avoid corrupt saves.
+    - Add `validate_save()` that ensures all `chronicle.entries` remain write-once.
+
+**Acceptance:** Attempting to delete a chronicle-mirrored seed returns an error and leaves save unchanged.
