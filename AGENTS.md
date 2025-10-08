@@ -51,14 +51,27 @@
 ---
 
 ## CombatEngine (minimal deterministic system)
-- [ ] `models/combat.py`
+- [x] `models/combat.py`
     - Implement classes: `Entity`, `Ability`, `CombatEngine`.
     - Abilities: `attack`, `ritual` (requires warm-up), `tech` (consumes pulse).
     - Relationship-based combos: `if relationship.rank >= X` → unlock `partner_combo`.
     - Deterministic RNG: `CombatEngine(seed)` parameterized.
-- [ ] **Combat CLI hooks**
+- [x] **Combat CLI hooks**
     - Command-line choices: attack, ritual, tech, use-item, pass.
-- [ ] **Combat tests**
+- [x] **Combat tests**
     - Deterministic scenarios (seeded RNG) assert exact HP changes.
 
 **Acceptance:** A scripted combat scenario with RNG seed yields stable results across runs.
+
+---
+
+## RelationshipManager & festival mechanics
+- [ ] `models/relationship.py`
+    - Track per-character `points`, compute `rank` (thresholds).
+    - API to `add_points(char_id, amount, reason)`.
+- [ ] Festival interaction
+    - Implement festival timeline hook that can change relationship ranks and optionally apply downgrade flags (but do not auto-run major punishments in MVP).
+- [ ] UI display
+    - Relationship panel showing points and rank.
+
+**Acceptance:** Relationship points change from specific events and are readable in UI.
