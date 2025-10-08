@@ -18,13 +18,13 @@
 ---
 
 ## Chronicle & SaveManager (write-once enforcement)
-- [ ] `models/chronicle.py`
+- [x] `models/chronicle.py`
     - `Chronicle` class with methods:
         - `mirror(seed: Seed) -> bool` — add protected entry if not present.
         - `has(seed_id: str) -> bool`.
         - `list_entries() -> List[ChronicleEntry]`.
     - `ChronicleEntry` dataclass: `{id, data, protected: True, mirrored_at}`.
-- [ ] `persistence/save_manager.py`
+- [x] `persistence/save_manager.py`
     - JSON-based save/load API:
         - `save_game(state: dict, path: str)`.
         - `load_game(path: str) -> dict`.
@@ -33,3 +33,17 @@
     - Add `validate_save()` that ensures all `chronicle.entries` remain write-once.
 
 **Acceptance:** Attempting to delete a chronicle-mirrored seed returns an error and leaves save unchanged.
+
+---
+
+## SceneEngine & seed pickup flow
+- [ ] `scene_engine.py`
+    - `SceneEngine` loads scene JSON, renders content via UI, processes `effects` array (e.g., `pickup_seed`).
+    - On `pickup_seed`:
+        - Add seed to player inventory/flags.
+        - If `seed.mirrored_to_chronicle_on_pickup` OR `seed.essential_for_payoff` → call `Chronicle.mirror(seed)`.
+    - Emit events/logs for triggers (use simple EventBus or callback hooks).
+- [ ] **Scene JSON spec doc**
+    - Document allowed effect types: `pickup_seed`, `trigger_combat`, `give_item`, `add_rel_points`, `transition_chapter`.
+
+**Acceptance:** Picking S05 in ch1_festival results in `chronicle.has("S05") == True` immediately.
