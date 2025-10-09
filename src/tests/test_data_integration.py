@@ -22,7 +22,7 @@ class TestDataIntegration(unittest.TestCase):
         self.assertIsNotNone(p02, "Payoff P02 not found.")
 
         # Check that the required seed IDs can be extracted correctly.
-        required_ids = p02.get_required_seed_ids()
+        required_ids = [seed.id for seed in p02.required_seeds.seeds]
         self.assertIn("S05", required_ids)
         self.assertIn("S06", required_ids)
 

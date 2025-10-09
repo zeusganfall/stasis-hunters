@@ -8,7 +8,6 @@ from src.data_loader import load_seeds, load_payoffs
 class TestDataLoader(unittest.TestCase):
 
     def setUp(self):
-        # Updated to be a list of dicts, matching the real file format
         self.seeds_data = [
             {
                 "id": "seed1",
@@ -17,23 +16,29 @@ class TestDataLoader(unittest.TestCase):
                 "essential_for_payoff": True,
                 "mirrored_to_chronicle_on_pickup": True,
                 "chapter": 1,
+                "meta": {}
             }
         ]
-        # Updated to be a list of dicts with the complex required_seeds
         self.payoffs_data = [
             {
                 "id": "payoff1",
+                "title": "Payoff 1 Title",
                 "description": "Payoff 1",
                 "required_seeds": {
                     "mode": "any_of",
-                    "seeds": [{"id": "seed1"}]
+                    "seeds": [{"id": "seed1", "must_be_mirrored": True, "priority": 1}]
                 },
+                "fallbacks": [],
+                "trigger_window": {"earliest_chapter": 1, "latest_chapter": 9},
                 "canonical": True,
+                "consequence": {"type": "mechanic", "data": {}},
+                "completion_flag": "payoff1_completed",
+                "validation": {"strict": True, "error_on_violation": True},
+                "notes": ""
             }
         ]
 
     def test_load_seeds_success(self):
-        # Test loading from a list of seed objects
         m = mock_open(read_data=json.dumps(self.seeds_data))
         with patch("builtins.open", m):
             seeds = load_seeds("dummy_path.json")
@@ -43,7 +48,6 @@ class TestDataLoader(unittest.TestCase):
             self.assertEqual(len(seeds), 1)
 
     def test_load_payoffs_success(self):
-        # Test loading from a list of payoff objects
         m_seeds = mock_open(read_data=json.dumps(self.seeds_data))
         m_payoffs = mock_open(read_data=json.dumps(self.payoffs_data))
 
@@ -58,16 +62,22 @@ class TestDataLoader(unittest.TestCase):
             self.assertEqual(len(payoffs), 1)
 
     def test_load_payoffs_invalid_seed_ref(self):
-        # Test validation of required_seeds
         invalid_payoffs_data = [
             {
                 "id": "payoff2",
+                "title": "Payoff 2 Title",
                 "description": "Payoff 2",
                 "required_seeds": {
                     "mode": "any_of",
-                    "seeds": [{"id": "non_existent_seed"}]
+                    "seeds": [{"id": "non_existent_seed", "must_be_mirrored": True, "priority": 1}]
                 },
+                "fallbacks": [],
+                "trigger_window": {"earliest_chapter": 1, "latest_chapter": 9},
                 "canonical": False,
+                "consequence": {"type": "mechanic", "data": {}},
+                "completion_flag": "payoff2_completed",
+                "validation": {"strict": True, "error_on_violation": True},
+                "notes": ""
             }
         ]
         m_seeds = mock_open(read_data=json.dumps(self.seeds_data))
