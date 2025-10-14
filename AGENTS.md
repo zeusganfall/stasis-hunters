@@ -60,7 +60,7 @@ Goal: Minimal playable loop (one scene → one combat → pickup seed → mirror
 ```
 
 *Sample scene snippet (scene_festival.json):*
-```json- **
+```json
 {
   "id": "scene_festival",
   "text": "Lanterns float. Hana gives you a charm.",
@@ -75,7 +75,7 @@ Goal: Minimal playable loop (one scene → one combat → pickup seed → mirror
     - Picking up an essential seed sets `flag_seed_<id>_found` and `flag_seed_<id>_mirrored_to_chronicle = true`.
     - Chronicle list shows protected badge in console.
 
-- **Technical Approach* - 
+- **Technical Approach**
     - Implement `engine/chronicle.py` with add(seed) that sets `protected: true` for seeds where `essential_for_payoff==true`.
     - Implement `save` with `chronicle_entries` area that is write-once (on save, refuse to remove entries).
     - Expose `ui.show_toast()` that prints `Protected in Chronicle`.
@@ -110,7 +110,7 @@ Goal: A coherent, short playable chunk demonstrating seeds→payoff, relationshi
 
 - **Technical Approach**
     - Implement `SceneState` with flags propagation to save and `scene_manager` that can evaluate conditions like `if not flag_seed_S01_found and chapter>=5 then spawn S22_fallback_scene`.
-    - Encode fallbacks in seeds.json with `fallback_chapter` and `- **`.
+    - Encode fallbacks in seeds.json with `fallback_chapter` and `fallback_trigger`.
 
 - **Testing Steps**
     - Play without picking S01 → reach fallback chapter → confirm fallback seed appears and payoffs still reachable.

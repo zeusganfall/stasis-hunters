@@ -1,0 +1,11 @@
+{
+  "id": "scene_after_festival",
+  "text": "You pocket the charm, the smooth wood warm against your palm. The festival continues around you, a vibrant tapestry of light and sound, but your thoughts linger on the small gift and the girl who gave it to you.",
+  "choices": [
+    {
+      "id": "continue",
+      "text": "Continue enjoying the festival.",
+      "next_scene": null
+    }
+  ]
+}

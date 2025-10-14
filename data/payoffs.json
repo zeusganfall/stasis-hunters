@@ -1,0 +1,9 @@
+[
+  {
+    "id": "P02",
+    "description": "An old shrine charm Aki received early (from Hana’s shrine) becomes the key to dispelling a locked anomaly barrier.",
+    "emotion_aim": "Aha / relief",
+    "canonical_chapter": 7,
+    "required_mirrored_seeds": ["S05"]
+  }
+]
