@@ -1,0 +1,10 @@
+[
+  {
+    "id": "MONSTER_GOBLIN",
+    "name": "Goblin",
+    "hp": 30,
+    "attack": 5,
+    "defense": 2,
+    "abilities": ["ABILITY_ATTACK"]
+  }
+]

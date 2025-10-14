@@ -1,0 +1,8 @@
+[
+  {
+    "id": "ABILITY_ATTACK",
+    "name": "Attack",
+    "description": "A basic physical attack.",
+    "power": 10
+  }
+]
