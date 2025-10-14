@@ -1,0 +1,12 @@
+[
+  {
+    "id": "S05",
+    "description": "Small shrine charm Hana gives Aki at the festival",
+    "type": "item",
+    "location": "School festival",
+    "chapter_planted": 1,
+    "discover_method": "pickup (given)",
+    "essential_for_payoff": true,
+    "date": "2016-03-15"
+  }
+]

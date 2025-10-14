@@ -1,0 +1,12 @@
+{
+  "id": "scene_festival",
+  "text": "The lanterns float gracefully into the twilight sky. As you watch them, Hana approaches and offers you a small, intricately carved wooden charm.\\n\\n\"Here,\" she says softly. \"A keepsake. For protection.\"",
+  "seeds": ["S05"],
+  "choices": [
+    {
+      "id": "take_charm",
+      "text": "Accept the charm from Hana.",
+      "next_scene": "scene_after_festival"
+    }
+  ]
+}
