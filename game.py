@@ -2,21 +2,22 @@ import argparse
 import json
 import os
 from engine.scene import Scene
+from engine.chronicle import ChronicleManager
+from engine.save import SaveManager
 
-def load_scene_data(scene_id):
+def load_json_file(file_path):
     """
-    Loads scene data from a JSON file.
+    Loads data from a JSON file.
 
     Args:
-        scene_id (str): The ID of the scene to load.
+        file_path (str): The path to the JSON file.
 
     Returns:
-        dict or None: A dictionary containing the scene data, or None if the file
-                      is not found or is invalid.
+        dict or None: A dictionary containing the JSON data, or None if the
+                      file is not found or is invalid.
     """
-    scene_path = os.path.join("data", "scenes", f"{scene_id}.json")
     try:
-        with open(scene_path, 'r') as f:
+        with open(file_path, 'r') as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return None
@@ -31,15 +32,33 @@ def main():
     parser.add_argument("--choice", type=int, help="The choice to make in the scene.")
     args = parser.parse_args()
 
-    current_scene_id = args.scene
+    save_manager = SaveManager()
+    game_state = save_manager.load() or {}
 
-    scene_data = load_scene_data(current_scene_id)
+    chronicle_manager = ChronicleManager(game_state.get("chronicle_entries", []))
+
+    current_scene_id = game_state.get("current_scene_id", args.scene)
+
+    scene_data = load_json_file(os.path.join("data", "scenes", f"{current_scene_id}.json"))
     if not scene_data:
         print(f"Error: Scene '{current_scene_id}' not found or is invalid.")
         return
 
     scene = Scene(scene_data)
     scene.display()
+
+    # Process seeds from the current scene
+    if scene.seeds:
+        all_seeds_list = load_json_file(os.path.join("data", "seeds.json")) or []
+        all_seeds_dict = {seed['id']: seed for seed in all_seeds_list}
+        for seed_id in scene.seeds:
+            if seed_id in all_seeds_dict:
+                chronicle_manager.add(all_seeds_dict[seed_id])
+
+    # Update and save game state
+    game_state["current_scene_id"] = current_scene_id
+    game_state["chronicle_entries"] = chronicle_manager.get_entries()
+    save_manager.save(game_state)
 
     if not scene.choices:
         print("The story ends here.")
@@ -51,6 +70,8 @@ def main():
             next_scene_id = scene.get_next_scene(choice - 1)
             if next_scene_id:
                 print(f"\nMoving to scene: {next_scene_id}")
+                game_state["current_scene_id"] = next_scene_id
+                save_manager.save(game_state)
             else:
                 print("The story ends here.")
         else:
@@ -68,6 +89,8 @@ def main():
         next_scene_id = scene.get_next_scene(choice - 1)
         if next_scene_id:
             print(f"\nMoving to scene: {next_scene_id}")
+            game_state["current_scene_id"] = next_scene_id
+            save_manager.save(game_state)
         else:
             print("The story ends here.")
 
