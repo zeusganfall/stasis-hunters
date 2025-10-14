@@ -4,6 +4,7 @@ import os
 from engine.scene import Scene
 from engine.chronicle import ChronicleManager
 from engine.save import SaveManager
+from engine.combat import Ability, Combatant, CombatLoop
 
 def load_json_file(file_path):
     """
@@ -22,15 +23,49 @@ def load_json_file(file_path):
     except (FileNotFoundError, json.JSONDecodeError):
         return None
 
+def run_combat_demo():
+    """
+    Sets up and runs a demonstration combat encounter.
+    """
+    abilities_data = load_json_file(os.path.join("data", "abilities.json")) or []
+    characters_data = load_json_file(os.path.join("data", "characters.json")) or []
+    monsters_data = load_json_file(os.path.join("data", "monsters.json")) or []
+
+    if not all([abilities_data, characters_data, monsters_data]):
+        print("Error: Missing required data files for combat (abilities, characters, or monsters).")
+        return
+
+    all_abilities = {data['id']: Ability(data) for data in abilities_data}
+
+    player_character_data = next((c for c in characters_data if c['id'] == 'PLAYER_AKI'), None)
+    enemy_data = next((m for m in monsters_data if m['id'] == 'MONSTER_GOBLIN'), None)
+
+    if not player_character_data or not enemy_data:
+        print("Error: Could not load character or monster data for combat demo.")
+        return
+
+    player_party = [Combatant(player_character_data, all_abilities)]
+    enemy_party = [Combatant(enemy_data, all_abilities)]
+
+    combat = CombatLoop(player_party, enemy_party)
+    combat.run()
+
 def main():
     """
     The main game loop.
     """
     parser = argparse.ArgumentParser(description="A text-based narrative game.")
-    parser.add_argument("--scene", default="scene_festival",
-                        help="The starting scene ID.")
+    parser.add_argument("--scene", default="scene_festival", help="The starting scene ID.")
     parser.add_argument("--choice", type=int, help="The choice to make in the scene.")
+    parser.add_argument("--combat", help="Run a combat encounter by ID (e.g., 'demo').")
     args = parser.parse_args()
+
+    if args.combat:
+        if args.combat == 'demo':
+            run_combat_demo()
+        else:
+            print(f"Error: Unknown combat encounter '{args.combat}'.")
+        return
 
     save_manager = SaveManager()
     game_state = save_manager.load() or {}
@@ -77,7 +112,6 @@ def main():
         else:
             print("Invalid choice.")
     else:
-        # This part will not be hit in the automated tests, but is kept for local running.
         choice = -1
         while choice < 1 or choice > len(scene.choices):
             try:
@@ -93,7 +127,6 @@ def main():
             save_manager.save(game_state)
         else:
             print("The story ends here.")
-
 
 if __name__ == "__main__":
     main()

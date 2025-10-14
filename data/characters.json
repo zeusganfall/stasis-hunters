@@ -1,0 +1,10 @@
+[
+  {
+    "id": "PLAYER_AKI",
+    "name": "Aki",
+    "hp": 50,
+    "attack": 8,
+    "defense": 4,
+    "abilities": ["ABILITY_ATTACK"]
+  }
+]
